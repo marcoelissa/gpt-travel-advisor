@@ -1,5 +1,5 @@
 import './globals.css'
-import Image from 'next/image'
+import { AnalyticsWrapper } from './components/analytics'
 
 export default function RootLayout({
   children,
@@ -16,6 +16,7 @@ export default function RootLayout({
       <body>
         <div className='wrapper'>
           {children}
+          <AnalyticsWrapper />
         </div>
         <footer className='footer'>
           <p>info@parallaxnetwork.com</p>
