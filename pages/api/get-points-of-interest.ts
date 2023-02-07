@@ -2,21 +2,20 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  pointsOfInterest: any,
+  pointsOfInterest: any
 }
 
 const GPT_KEY = process.env.GPT_API_KEY
 
 const headers = {
   'Content-Type': 'application/json',
-  'Authorization': `Bearer ${GPT_KEY}`
+  Authorization: `Bearer ${GPT_KEY}`,
 }
 
 export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<Data>
 ) {
-  
   const { pointsOfInterestPrompt } = JSON.parse(req.body)
   const response2 = await fetch('https://api.openai.com/v1/completions', {
     method: 'POST',
@@ -25,8 +24,8 @@ export default async function handler(
       model: 'text-davinci-003',
       prompt: pointsOfInterestPrompt,
       temperature: 0,
-      max_tokens: 300
-    })
+      max_tokens: 1000,
+    }),
   })
 
   let pointsOfInterest = await response2.json()
@@ -34,9 +33,9 @@ export default async function handler(
   pointsOfInterest = pointsOfInterest.choices[0].text.split('\n')
   pointsOfInterest = pointsOfInterest[pointsOfInterest.length - 1]
   pointsOfInterest = pointsOfInterest.split(',')
-  const pointsOfInterestArray = pointsOfInterest.map(i => i.trim())
+  const pointsOfInterestArray = pointsOfInterest.map((i) => i.trim())
 
   res.status(200).json({
-    pointsOfInterest: JSON.stringify(pointsOfInterestArray)
+    pointsOfInterest: JSON.stringify(pointsOfInterestArray),
   })
 }

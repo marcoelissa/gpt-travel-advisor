@@ -2,16 +2,17 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 
 type Data = {
-  message: string,
-  pointsOfInterestPrompt: any,
-  itinerary: any,
+  message: string
+  pointsOfInterestPrompt: any
+  itineraries: any
+  itinerary: any
 }
 
 const GPT_KEY = process.env.GPT_API_KEY
 
 const headers = {
   'Content-Type': 'application/json',
-  'Authorization': `Bearer ${GPT_KEY}`
+  Authorization: `Bearer ${GPT_KEY}`,
 }
 
 export default async function handler(
@@ -29,7 +30,8 @@ export default async function handler(
     days = 10
   }
 
-  let basePrompt = `what is an ideal itinerary for ${days} days in ${city}?`
+  // let basePrompt = `What is an exciting itinerary for ${days} days in ${city}?`
+  let basePrompt = `Apa detail rencana perjalanan wisata unik, populer dan murah di kota ${city} untuk ${days} hari?`
   try {
     const response = await fetch('https://api.openai.com/v1/completions', {
       method: 'POST',
@@ -38,18 +40,20 @@ export default async function handler(
         model: 'text-davinci-003',
         prompt: basePrompt,
         temperature: 0,
-        max_tokens: 550
-      })
+        max_tokens: 1000,
+      }),
     })
     const itinerary = await response.json()
-    const pointsOfInterestPrompt = 'Extract the points of interest out of this text, with no additional words, separated by commas: ' + itinerary.choices[0].text
+    const pointsOfInterestPrompt =
+      'Extract the points of interest out of this text, with no additional words, separated by commas: ' +
+      itinerary.choices[0].text
 
     res.status(200).json({
       message: 'success',
       pointsOfInterestPrompt,
-      itinerary: itinerary.choices[0].text
+      itineraries: itinerary,
+      itinerary: itinerary.choices[0].text,
     })
-
   } catch (err) {
     console.log('error: ', err)
   }
