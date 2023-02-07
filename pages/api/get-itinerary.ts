@@ -40,7 +40,7 @@ export default async function handler(
         model: 'text-davinci-003',
         prompt: basePrompt,
         temperature: 0,
-        max_tokens: 1000,
+        max_tokens: 550,
       }),
     })
     const itinerary = await response.json()
