@@ -19,18 +19,9 @@ export default function RootLayout({
           {children}
           <AnalyticsWrapper />
         </div>
-        {/* <footer className='footer'>
-          <p>
-            Credit:{' '}
-            <a
-              target='_blank'
-              rel='no-opener noreferrer'
-              href='https://twitter.com/dabit3'
-            >
-              @dabit3
-            </a>
-          </p>
-        </footer> */}
+        <footer className='footer'>
+          <p>info@parallaxnetwork.com</p>
+        </footer>
       </body>
     </html>
   )

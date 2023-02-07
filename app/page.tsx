@@ -37,14 +37,7 @@ export default function Home() {
     })
     const json = await response.json()
     console.log(json)
-
-    // const responseTrans = await fetch('/api/translate', {
-    //   method: 'POST',
-    //   body: JSON.stringify({
-    //     translationPrompt: json.translationPrompt,
-    //   }),
-    // })
-    // const jsonTrans = await responseTrans.json()
+    let itinerary = json.itinerary
 
     const response2 = await fetch('/api/get-points-of-interest', {
       method: 'POST',
@@ -53,9 +46,7 @@ export default function Home() {
       }),
     })
     const json2 = await response2.json()
-
     let pointsOfInterest = JSON.parse(json2.pointsOfInterest)
-    let itinerary = json.itinerary
 
     pointsOfInterest.map((point) => {
       // itinerary = itinerary.replace(point, `<a target="_blank" rel="no-opener" href="https://www.google.com/search?q=${encodeURIComponent(point + ' ' + request.city)}">${point}</a>`)
